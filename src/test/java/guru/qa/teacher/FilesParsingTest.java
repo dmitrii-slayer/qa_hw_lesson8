@@ -1,4 +1,4 @@
-package guru.qa;
+package guru.qa.teacher;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
@@ -9,8 +9,6 @@ import guru.qa.model.Glossary;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -45,11 +43,11 @@ public class FilesParsingTest {
     @Test
     void csvParseTest() throws Exception {
         try (
-                InputStream resource = cl.getResourceAsStream("example/qa_guru.csv");
+                InputStream resource = cl.getResourceAsStream("example/randomcsv.csv");
                 CSVReader reader = new CSVReader(new InputStreamReader(resource))
         ) {
             List<String[]> content = reader.readAll();
-            assertThat(content.get(0)[1]).contains("lesson");
+            assertThat(content.get(3)[2]).contains("quiet");
         }
     }
 

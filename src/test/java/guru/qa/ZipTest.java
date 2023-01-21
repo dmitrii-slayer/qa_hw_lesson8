@@ -3,6 +3,7 @@ package guru.qa;
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
 import com.opencsv.CSVReader;
+import guru.qa.teacher.SelenideFilesTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
@@ -15,30 +16,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ZipTest {
 
-        ClassLoader cl = SelenideFilesTest.class.getClassLoader();
+    ClassLoader cl = SelenideFilesTest.class.getClassLoader();
 
-        @Test
-        void zipParseTest() throws Exception {
-
-            try (
-                    InputStream is = cl.getResourceAsStream("back.zip");
-                    ZipInputStream zis = new ZipInputStream(is)
-            ) {
-                ZipEntry entry;
-                while ((entry = zis.getNextEntry()) != null) {
-                    String entryName = entry.getName();
-                    if (entryName.contains(".xlsx")) {
-                        XLS content = new XLS(zis);
-                        assertThat(content.excel.getSheetAt(0).getRow(1).getCell(1).getStringCellValue()).contains("Иванова");
-                    } else if (entryName.contains(".pdf")) {
-                        PDF content = new PDF(zis);
-                        assertThat(content.text).contains("PDF");
-                    } else if (entryName.contains(".csv")) {
-                        CSVReader reader = new CSVReader(new InputStreamReader(zis));
-                        List<String[]> content = reader.readAll();
-                        assertThat(content.get(1)[1]).contains("A");
-                    }
+    @Test
+    void zipParseTest() throws Exception {
+        try (
+                InputStream resource = cl.getResourceAsStream("example/test_zip.zip");
+                ZipInputStream zis = new ZipInputStream(resource)
+        ) {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.getName().contains("maven.pdf")) {
+                    PDF pdfContent = new PDF(zis);
+                    assertThat(pdfContent.text).contains("The Ten Minute Test - Creating a Project with Maven 1.x");
+                } else if (entry.getName().contains("randomcsv.csv")) {
+                    CSVReader csvContent = new CSVReader(new InputStreamReader(zis));
+                    List<String[]> content = csvContent.readAll();
+                    assertThat(content.get(4)[1]).contains("green");
+                } else if (entry.getName().contains("file_example_XLS_50.xls")) {
+                    XLS xlsContent = new XLS(zis);
+                    assertThat(xlsContent.excel.getSheetAt(0).getRow(0).getCell(1).getStringCellValue()).contains("First Name");
                 }
             }
         }
+    }
 }

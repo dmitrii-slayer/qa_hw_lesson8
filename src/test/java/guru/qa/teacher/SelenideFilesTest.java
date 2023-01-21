@@ -1,4 +1,4 @@
-package guru.qa;
+package guru.qa.teacher;
 
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static com.codeborne.selenide.Selenide.open;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
