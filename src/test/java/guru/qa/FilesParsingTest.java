@@ -28,17 +28,17 @@ public class FilesParsingTest {
 
     @Test
     void pdfParseTest() throws Exception {
-        open("https://junit.org/junit5/docs/current/user-guide/");
-        File downloadedPdf = $("a[href='junit-user-guide-5.9.1.pdf']").download();
+        open("https://maven.apache.org/archives/maven-1.x/");
+        File downloadedPdf = $("a[href='maven.pdf']").download();
         PDF content = new PDF(downloadedPdf);
-        assertThat(content.text).contains("Sam Brannen");
+        assertThat(content.text).contains("Changes Between Maven 1.0.2 and Maven 1.1");
     }
 
     @Test
     void xlsParseTest() throws Exception {
-        try (InputStream resourceAsStream = cl.getResourceAsStream("example/sample-xlsx-file.xlsx")) {
+        try (InputStream resourceAsStream = cl.getResourceAsStream("example/file_example_XLS_50.xls")) {
             XLS content = new XLS(resourceAsStream);
-            assertThat(content.excel.getSheetAt(0).getRow(1).getCell(1).getStringCellValue()).contains("Dulce");
+            assertThat(content.excel.getSheetAt(0).getRow(9).getCell(2).getStringCellValue()).contains("Weiland");
         }
     }
 
