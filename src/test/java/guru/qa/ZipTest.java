@@ -16,12 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ZipTest {
 
-    ClassLoader cl = SelenideFilesTest.class.getClassLoader();
+    ClassLoader cLoader = SelenideFilesTest.class.getClassLoader();
 
     @Test
     void zipParseTest() throws Exception {
         try (
-                InputStream resource = cl.getResourceAsStream("example/test_zip.zip");
+                InputStream resource = cLoader.getResourceAsStream("example/test_zip.zip");
                 ZipInputStream zis = new ZipInputStream(resource)
         ) {
             ZipEntry entry;
